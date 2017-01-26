@@ -1,0 +1,55 @@
+﻿@model IEnumerable<BarManager.CommonLib.TransactionModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Transactions</h2>
+@Html.ActionLink("Add Transaction", "Create", "Transaction")
+<br />
+<table>
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Payment Date
+        </th>
+        <th>
+            Vendor
+        </th>
+        <th>
+            Amount
+        </th>
+        <th>
+            Paymen Method
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach (BarManager.CommonLib.TransactionModel trans in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => trans.TransactionTypeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => trans.PaymentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => trans.VendorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => trans.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => trans.PaymentMethodName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = trans.TransactionID }) |
+                @Html.ActionLink("Details", "Details", new { id = trans.TransactionID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = trans.TransactionID })
+            </td>
+        </tr>
+    }
+</table>

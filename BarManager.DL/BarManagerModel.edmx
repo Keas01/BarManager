@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BarManagerModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="BarManagerModelStoreContainer">
+          <EntitySet Name="Payment Method" EntityType="BarManagerModel.Store.Payment Method" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tax Rate" EntityType="BarManagerModel.Store.Tax Rate" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Transaction Type" EntityType="BarManagerModel.Store.Transaction Type" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Transactions" EntityType="BarManagerModel.Store.Transactions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Vendor" EntityType="BarManagerModel.Store.Vendor" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Transactions_PaymentMethod" Association="BarManagerModel.Store.FK_Transactions_PaymentMethod">
+            <End Role="Payment Method" EntitySet="Payment Method" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_TaxRate" Association="BarManagerModel.Store.FK_Transactions_TaxRate">
+            <End Role="Tax Rate" EntitySet="Tax Rate" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_TransactionType" Association="BarManagerModel.Store.FK_Transactions_TransactionType">
+            <End Role="Transaction Type" EntitySet="Transaction Type" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_Vendor" Association="BarManagerModel.Store.FK_Transactions_Vendor">
+            <End Role="Vendor" EntitySet="Vendor" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Payment Method">
+          <Key>
+            <PropertyRef Name="Payment_Method_ID" />
+          </Key>
+          <Property Name="Payment_Method_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Payment_Method" Type="nchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Tax Rate">
+          <Key>
+            <PropertyRef Name="Tax_Rate_ID" />
+          </Key>
+          <Property Name="Tax_Rate_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Tax_Rate" Type="decimal" Scale="2" />
+        </EntityType>
+        <EntityType Name="Transaction Type">
+          <Key>
+            <PropertyRef Name="Transaction_Type_ID" />
+          </Key>
+          <Property Name="Transaction_Type_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Transaction_Type" Type="nchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Transactions">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="money" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Reason" Type="nchar" MaxLength="255" />
+          <Property Name="Details" Type="nchar" MaxLength="255" />
+          <Property Name="Image" Type="image" />
+          <Property Name="FK_Tax_Rate" Type="int" />
+          <Property Name="FK_Payment_Method" Type="int" />
+          <Property Name="FK_Transaction_Type" Type="int" />
+          <Property Name="FK_Vendor" Type="int" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorID" />
+          </Key>
+          <Property Name="VendorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VendorName" Type="nchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Transactions_PaymentMethod">
+          <End Role="Payment Method" Type="BarManagerModel.Store.Payment Method" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transactions" Type="BarManagerModel.Store.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment Method">
+              <PropertyRef Name="Payment_Method_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Payment_Method" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_TaxRate">
+          <End Role="Tax Rate" Type="BarManagerModel.Store.Tax Rate" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transactions" Type="BarManagerModel.Store.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tax Rate">
+              <PropertyRef Name="Tax_Rate_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Tax_Rate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_TransactionType">
+          <End Role="Transaction Type" Type="BarManagerModel.Store.Transaction Type" Multiplicity="0..1" />
+          <End Role="Transactions" Type="BarManagerModel.Store.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction Type">
+              <PropertyRef Name="Transaction_Type_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Transaction_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_Vendor">
+          <End Role="Vendor" Type="BarManagerModel.Store.Vendor" Multiplicity="0..1" />
+          <End Role="Transactions" Type="BarManagerModel.Store.Transactions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Vendor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BarManagerModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="BarManagerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Payment_Methods" EntityType="BarManagerModel.Payment_Method" />
+          <EntitySet Name="Tax_Rates" EntityType="BarManagerModel.Tax_Rate" />
+          <EntitySet Name="Transaction_Types" EntityType="BarManagerModel.Transaction_Type" />
+          <EntitySet Name="Transactions" EntityType="BarManagerModel.Transaction" />
+          <EntitySet Name="Vendors" EntityType="BarManagerModel.Vendor" />
+          <AssociationSet Name="FK_Transactions_PaymentMethod" Association="BarManagerModel.FK_Transactions_PaymentMethod">
+            <End Role="Payment_Method" EntitySet="Payment_Methods" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_TaxRate" Association="BarManagerModel.FK_Transactions_TaxRate">
+            <End Role="Tax_Rate" EntitySet="Tax_Rates" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_TransactionType" Association="BarManagerModel.FK_Transactions_TransactionType">
+            <End Role="Transaction_Type" EntitySet="Transaction_Types" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transactions_Vendor" Association="BarManagerModel.FK_Transactions_Vendor">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="Transactions" EntitySet="Transactions" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Payment_Method">
+          <Key>
+            <PropertyRef Name="Payment_Method_ID" />
+          </Key>
+          <Property Name="Payment_Method_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Payment_MethodName" Type="String" MaxLength="255" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="Transactions" Relationship="BarManagerModel.FK_Transactions_PaymentMethod" FromRole="Payment_Method" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Tax_Rate">
+          <Key>
+            <PropertyRef Name="Tax_Rate_ID" />
+          </Key>
+          <Property Name="Tax_Rate_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tax_RateName" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="Transactions" Relationship="BarManagerModel.FK_Transactions_TaxRate" FromRole="Tax_Rate" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Transaction_Type">
+          <Key>
+            <PropertyRef Name="Transaction_Type_ID" />
+          </Key>
+          <Property Name="Transaction_Type_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Transaction_TypeName" Type="String" MaxLength="20" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="Transactions" Relationship="BarManagerModel.FK_Transactions_TransactionType" FromRole="Transaction_Type" ToRole="Transactions" />
+        </EntityType>
+        <EntityType Name="Transaction">
+          <Key>
+            <PropertyRef Name="TransactionID" />
+          </Key>
+          <Property Name="TransactionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Date" Type="DateTime" />
+          <Property Name="Reason" Type="String" MaxLength="255" Unicode="true" FixedLength="true" />
+          <Property Name="Details" Type="String" MaxLength="255" Unicode="true" FixedLength="true" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FK_Tax_Rate" Type="Int32" />
+          <Property Name="FK_Payment_Method" Type="Int32" />
+          <Property Name="FK_Transaction_Type" Type="Int32" />
+          <Property Name="FK_Vendor" Type="Int32" />
+          <NavigationProperty Name="Payment_Method" Relationship="BarManagerModel.FK_Transactions_PaymentMethod" FromRole="Transactions" ToRole="Payment_Method" />
+          <NavigationProperty Name="Tax_Rate" Relationship="BarManagerModel.FK_Transactions_TaxRate" FromRole="Transactions" ToRole="Tax_Rate" />
+          <NavigationProperty Name="Transaction_Type" Relationship="BarManagerModel.FK_Transactions_TransactionType" FromRole="Transactions" ToRole="Transaction_Type" />
+          <NavigationProperty Name="Vendor" Relationship="BarManagerModel.FK_Transactions_Vendor" FromRole="Transactions" ToRole="Vendor" />
+        </EntityType>
+        <EntityType Name="Vendor">
+          <Key>
+            <PropertyRef Name="VendorID" />
+          </Key>
+          <Property Name="VendorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VendorName" Type="String" MaxLength="255" Unicode="true" FixedLength="true" />
+          <NavigationProperty Name="Transactions" Relationship="BarManagerModel.FK_Transactions_Vendor" FromRole="Vendor" ToRole="Transactions" />
+        </EntityType>
+        <Association Name="FK_Transactions_PaymentMethod">
+          <End Role="Payment_Method" Type="BarManagerModel.Payment_Method" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transactions" Type="BarManagerModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment_Method">
+              <PropertyRef Name="Payment_Method_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Payment_Method" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_TaxRate">
+          <End Role="Tax_Rate" Type="BarManagerModel.Tax_Rate" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Transactions" Type="BarManagerModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tax_Rate">
+              <PropertyRef Name="Tax_Rate_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Tax_Rate" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_TransactionType">
+          <End Role="Transaction_Type" Type="BarManagerModel.Transaction_Type" Multiplicity="0..1" />
+          <End Role="Transactions" Type="BarManagerModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transaction_Type">
+              <PropertyRef Name="Transaction_Type_ID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Transaction_Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transactions_Vendor">
+          <End Role="Vendor" Type="BarManagerModel.Vendor" Multiplicity="0..1" />
+          <End Role="Transactions" Type="BarManagerModel.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="VendorID" />
+            </Principal>
+            <Dependent Role="Transactions">
+              <PropertyRef Name="FK_Vendor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BarManagerModelStoreContainer" CdmEntityContainer="BarManagerEntities">
+          <EntitySetMapping Name="Payment_Methods">
+            <EntityTypeMapping TypeName="BarManagerModel.Payment_Method">
+              <MappingFragment StoreEntitySet="Payment Method">
+                <ScalarProperty Name="Payment_Method_ID" ColumnName="Payment_Method_ID" />
+                <ScalarProperty Name="Payment_MethodName" ColumnName="Payment_Method" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tax_Rates">
+            <EntityTypeMapping TypeName="BarManagerModel.Tax_Rate">
+              <MappingFragment StoreEntitySet="Tax Rate">
+                <ScalarProperty Name="Tax_Rate_ID" ColumnName="Tax_Rate_ID" />
+                <ScalarProperty Name="Tax_RateName" ColumnName="Tax_Rate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transaction_Types">
+            <EntityTypeMapping TypeName="BarManagerModel.Transaction_Type">
+              <MappingFragment StoreEntitySet="Transaction Type">
+                <ScalarProperty Name="Transaction_Type_ID" ColumnName="Transaction_Type_ID" />
+                <ScalarProperty Name="Transaction_TypeName" ColumnName="Transaction_Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transactions">
+            <EntityTypeMapping TypeName="BarManagerModel.Transaction">
+              <MappingFragment StoreEntitySet="Transactions">
+                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="FK_Tax_Rate" ColumnName="FK_Tax_Rate" />
+                <ScalarProperty Name="FK_Payment_Method" ColumnName="FK_Payment_Method" />
+                <ScalarProperty Name="FK_Transaction_Type" ColumnName="FK_Transaction_Type" />
+                <ScalarProperty Name="FK_Vendor" ColumnName="FK_Vendor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vendors">
+            <EntityTypeMapping TypeName="BarManagerModel.Vendor">
+              <MappingFragment StoreEntitySet="Vendor">
+                <ScalarProperty Name="VendorID" ColumnName="VendorID" />
+                <ScalarProperty Name="VendorName" ColumnName="VendorName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="BarManagerModel">
+        <EntityTypeShape EntityType="BarManagerModel.Payment_Method" Width="2.75" PointX="0.5" PointY="0.75" Height="1.5956835937500005" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarManagerModel.Tax_Rate" Width="2.75" PointX="0.5" PointY="2.875" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarManagerModel.Transaction_Type" Width="2.5" PointX="6.25" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarManagerModel.Transaction" Width="1.5" PointX="4" PointY="0.625" Height="3.7109993489583313" IsExpanded="true" />
+        <EntityTypeShape EntityType="BarManagerModel.Vendor" Width="2.125" PointX="6.375" PointY="3" Height="1.5956835937499996" IsExpanded="true" />
+        <AssociationConnector Association="BarManagerModel.FK_Transactions_PaymentMethod" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.25" PointY="1.5478417968750002" />
+          <ConnectorPoint PointX="4" PointY="1.5478417968750002" />
+        </AssociationConnector>
+        <AssociationConnector Association="BarManagerModel.FK_Transactions_TaxRate" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.25" PointY="3.6054996744791659" />
+          <ConnectorPoint PointX="4" PointY="3.6054996744791659" />
+        </AssociationConnector>
+        <AssociationConnector Association="BarManagerModel.FK_Transactions_TransactionType" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.25" PointY="1.5478417968749998" />
+          <ConnectorPoint PointX="5.5" PointY="1.5478417968749998" />
+        </AssociationConnector>
+        <AssociationConnector Association="BarManagerModel.FK_Transactions_Vendor" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.375" PointY="3.6679996744791659" />
+          <ConnectorPoint PointX="5.5" PointY="3.6679996744791659" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
